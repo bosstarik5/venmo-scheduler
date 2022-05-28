@@ -24,8 +24,8 @@ def execute_scheduled_payments():
 @app.before_first_request
 def init_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=execute_scheduled_payments(), trigger="interval", seconds=3)
+    scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=3)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown(wait=False))
 
-app.run(host='0.0.0.0', port=12345, use_reloader=False)
+app.run(host='0.0.0.0', port=12345)
