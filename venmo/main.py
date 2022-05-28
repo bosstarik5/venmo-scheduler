@@ -43,17 +43,3 @@ print(users[34])
 # for idx, user in enumerate(users):
 #     print(idx, ": ", user.username)
 
-
-
-# access token = 7051ec720feeca9b8e678497ea8562637be9048f9cc6b48567a56bf25605d0ec
-# aryanid = "2589517210976256921"
-# # nidhiid = '2727255847469056507'
-# client = Client(access_token=access_token)
-# users = client.user.get_user_friends_list()
-# for user in users:
-#     print(user.username)
-
-# client.user.get_user_transactions(user_id='0000000000000000000',
-#                                      callback=callback)
-
-# 94700242-76F1-4C93-55O5-7YL79V669MD6 -> 86806993-99G5-6Q41-34Y2-3RH66F485QK3 -> deviceid
