@@ -10,3 +10,4 @@ def request_payment(access_tkn: str, amt: float, note: str, target_user_id: str)
         return GeneralPaymentError
     except NotEnoughBalanceError:
         return NotEnoughBalanceError
+
