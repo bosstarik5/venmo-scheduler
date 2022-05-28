@@ -3,7 +3,7 @@ from flask_apscheduler import APScheduler
 import atexit
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-
+from backend import request_payment
 app = Flask(__name__)
 
 @app.route('/')
@@ -27,5 +27,8 @@ def init_scheduler():
     scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=3)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown(wait=False))
+    return
+
+
 
 app.run(host='0.0.0.0', port=12345)
