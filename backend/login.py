@@ -1,19 +1,32 @@
-from venmo_api import Client
+# from venmo_api import Client
+from venmo_api_overrides import HTTPClient
 
 print("User id: ")
 userid = input()
 print("Pass: ")
 password = input()
-access_token = Client.get_access_token(username=userid,
-                                        password=password)
+# access_token = HTTPClient.get_access_token(username=userid,
+#                                         password=password)
+
+auth_api = HTTPClient.get_auth_api()
+access_token = auth_api.login_with_credentials_cli(username=userid, password=password)
+if not access_token:
+    # ask for OTP
+    access_token = auth_api.two_factor_login()
+
 print("My token:", access_token)
 
-ACCESS_TOKEN = 'd6b9f1c2621c5d8b6d59da60e28a8e0c05913ec84be5a75f11b8da76847cd3f2'
-DEVICE_ID = '57584824-38A6-6A74-44H4-4QJ95A225UJ2'
+# ML_ACCESS_TOKEN = '243697ea70e559b2fa5c376255af72dd941277102d988cab3a4605787eb9bfa6'
+# IN_ACCESS_TOKEN = 'b2b034a9c46ad9e5bffbaefe4102439dfc871213e8fd72373f87c9ae398c391f'
+# DEVICE_ID = '81807627-18U3-2S70-25K9-7IO59Q989JQ2'
 
-# Initialize api client using an access-token
-client = Client(access_token=ACCESS_TOKEN)
+# # Initialize api client using an access-token
+# client = HTTPClient(access_token=ACCESS_TOKEN)
 
-amnt = int(input("Enter amount: "))
-request_id = input("Enter requestee id: ")
-client.payment.request_money(amount=amnt, note="yo", target_user_id=request_id)
+# amnt = int(input("Enter amount: "))
+# request_id = input("Enter requestee id: ")
+# client.payment.request_money(amount=amnt, note="yo", target_user_id=request_id)
+
+# HTTPClient.log_out(ML_ACCESS_TOKEN)
+# HTTPClient.log_out(IN_ACCESS_TOKEN)
+
