@@ -98,8 +98,12 @@ def update_next(session, id):
     
     session.commit()
 
+def get_requests(session, time):
+    records = session.query(Requests).filter(Requests.next <= time).all()
+    return records
+    
 # def refresh(session, id): # low priority 
-insert_or_update_user(connect(), 1, 1234, 847)
+# insert_or_update_user(connect(), 1, 1234, 847)
 
 
 
