@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import psycopg2
 
 Base = declarative_base()
@@ -53,14 +54,6 @@ class Devices(Base):
 def create_universe(engine):
     create_database(engine.url)
     Base.metadata.create_all(engine)
-
-
-def destroy_universe(user, password, db):
-    connection = psycopg2.connect(user="",password="", host="localhost", port="5432", database=db)
-    cursor = connection.cursor()
-    SQL = f"DROP DATABASE IF EXISTS {db}"
-    cursor.close()
-
 
 def connect():
     # create env variable
@@ -155,6 +148,14 @@ def get_phone_number(session, id):
 # insert_or_update_user(hello, 1, 123, 99999)
 # # at = get_access_token(hello, 3)
 # print(get_phone_number(hello, 1))
+
+# def destroy_universe(user, password, db):
+#     connection = psycopg2.connect(user="",password="", host="localhost", port="5432", database=db)
+#     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+#     cursor = connection.cursor()
+#     SQL = f"DROP DATABASE IF EXISTS {db}"
+#     cursor.execute(SQL)
+#     cursor.close()
 
 # destroy_universe("postgres", "jainaryan7", "venmo_scheduler_test")
 # connect()
