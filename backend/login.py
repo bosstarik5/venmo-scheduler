@@ -14,7 +14,7 @@ def login(user, passw):
 
         client = HTTPClient(access_token)
         phone = str(client.user.get_my_profile().phone)
-        venmo_id = client.user.get_my_profile().id
+        venmo_id = str(client.user.get_my_profile().id)
 
         HTTPClient.log_out(access_token)
         return access_token, venmo_id, phone
