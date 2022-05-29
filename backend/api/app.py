@@ -10,38 +10,29 @@ def welcome():
     return 'Welcome to flask_apscheduler demo', 200
 
 
-@app.route('/api/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    error = None
-    e = 200
+    resp_code = 400
+    userid = None
 
-    if request.method == "POST":
-        # Gets the user and pass
-        body = request.get_json()
+    # Gets the user and pass
+    body = request.get_json()
 
-        # Get access token from venmo
-        acc_token, venmo_id, phone = login(body["username"], body["password"])
-        user_exist = False
-        if acc_token:
-            user_exist = True
+    # Get access token from venmo
+    acc_token, venmo_id, phone = login(body["username"], body["password"])
+    user_exist = False
+    if acc_token:
+        # session = connect()
+        # userid = update_user(session, venmo_id, acc_token, phone)
+        userid = body["username"]
 
-        # check for error, set error if exists
-        if user_exist:
-            # session = connect()
-            # userid = update_user(session, venmo_id, acc_token, phone)
-            userid = body["username"]
+        resp_code = 200
 
-            # Return with make response
-            response = make_response(jsonify({"userid": userid}), 200,)
-            return response
-        else:
-            error = 'Invalid username/password'
-            e = 400
-
-    # renders the page
-    return render_template('login.html', error=error), e
+    # Return with make response
+    response = make_response(jsonify({"userid": userid}), resp_code,)
+    return response
 
 
 # body = request.json()
 
-app.run(host='0.0.0.0', port=12345, use_reloader=False)
+app.run(host='0.0.0.0', port=5000, use_reloader=False)
