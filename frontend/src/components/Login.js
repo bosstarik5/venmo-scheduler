@@ -1,7 +1,7 @@
 import { Button, Card, TextField, CardContent, CardActions } from '@mui/material';
 import React, { useState } from 'react';
+import { ROOT_URL } from '../Constants';
 
-const ROOT_URL = "http://localhost:5000/api";
 const NEED_OTP = 401;
 
 export default function Login() {
@@ -26,6 +26,8 @@ export default function Login() {
                     //redirect to the OTP page
                 } else {
                     console.log("login successful");
+                    const data = response.json()
+                    localStorage.setItem('userId', data.id);
                 }
             });
     };

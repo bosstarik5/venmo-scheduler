@@ -32,7 +32,7 @@
   color: #61dafb;
 }
 
-.name-amount {
+.space-between-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
