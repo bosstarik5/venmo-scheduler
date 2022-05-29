@@ -16,6 +16,3 @@ urllib3==1.26.9
 venmo-api==0.3.1
 Werkzeug==2.1.2
 zipp==3.8.0
-Flask-APScheduler==1.12.3
-APScheduler==3.9.1
-
