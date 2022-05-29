@@ -107,6 +107,10 @@ def get_venmo_id(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.venmo_id
 
+def get_access_token(session, id):
+    record = session.query(Users).filter(Users.id == id).first()
+    return record.access_token
+
 # def refresh(session, id): # low priority  
 # insert_or_update_user(connect(), 1, 1234, 847)
 
