@@ -1,20 +1,19 @@
 from flask import Flask, render_template, make_response, request, jsonify
 from . import venmo_login
-from backend.database import connect, insert_or_update_user
+from backend.database import connect, insert_or_update_user, insert_request, get_access_token
 
 app = Flask(__name__)
 
 
-@app.route('/api/')
 @app.route('/api')
+@app.route('/api/')
 def welcome():
     return 'Welcome to flask_apscheduler demo', 200
-
 
 @app.route('/api/login', methods=['POST'])
 def login():
     resp_code = 400
-    userid = None
+    user_id = None
 
     # Gets the user and pass
     body = request.get_json()
@@ -23,13 +22,44 @@ def login():
     acc_token, venmo_id, phone = venmo_login(body["username"], body["password"])
     if acc_token:
         session = connect()
-        userid = insert_or_update_user(session, venmo_id, acc_token, phone)
+        user_id = insert_or_update_user(session, venmo_id, acc_token, phone)
         resp_code = 200
 
     # Return with make response
-    response = make_response(jsonify({"userid": userid}), resp_code,)
+    response = make_response(jsonify({"user_id": user_id}), resp_code,)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
+
+@app.route('/api/schedule', methods=['POST'])
+def schedule_request():
+    body = request.get_json()
+    session = connect()
+    freq_unit = body["frequency_unit"]
+    if freq_unit == "days":
+        freq = body["frequency"] * 3600 * 24
+    elif freq_unit == "months":
+        freq = body["frequency"] * 3600 * 24 * 30
+    elif freq_unit == "minutes":
+        freq = body["frequency"] * 60
+    elif freq_unit == "seconds":
+        freq = body["frequency"]
+    else:
+        response = make_response(jsonify({ "message": "Invalid frequency unit."}), 400)
+        response.headers['Access-Control-Allow-Origin'] = "*"
+        return response
+
+    # get user info from DB
+    # *** need to authenticate requests later on with JWTs
+    # access_token = get_access_token(session, body["id"])
+    insert_request(session, body["user_id"], body["target_user_venmo_id"], body["amount"],
+        body["text"], freq, body["start_date"], body["end_date"])
+
+    response = make_response(jsonify({ "message": "success"}), 200)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    return response
+
+
+
 
 
 # body = request.json()
