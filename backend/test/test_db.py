@@ -4,7 +4,7 @@ from venmo_api_overrides import HTTPClient
 
 def connect_test():
     session = connect()
-    insert_or_update_user(session, 12, 55555, 3312540000)
+    # insert_or_update_user(session, 12, 55555, 3312540000)
 
 
 if __name__ == "__main__":
