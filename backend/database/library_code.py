@@ -37,7 +37,21 @@ class Requests(Base):
     def __repr__(self):
         return '''<Requests(id='{}', sender_id='{}', rec_id='{}', amount='{}', 
         note='{}', frequency='{}', start_date='{}', end_date='{}', next='{}')>'''\
-            .format(self.id, self.sender_id, self.rec_id, self.amount, self.frequency, self.start_date, self.end_date, self.next)
+            .format(self.id, self.sender_id, self.rec_id, self.amount, self.note, self.frequency, self.start_date, self.end_date, self.next)
+
+    def to_dict(self):
+        result = {
+            "id": self.id,
+            "sender_id": self.sender_id,
+            "rec_id": self.rec_id,
+            "amount": self.amount,
+            "note": self.note,
+            "frequency": self.frequency,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "next": self.next
+        }
+        return result
 
 
 class Devices(Base):
@@ -146,7 +160,7 @@ def get_phone_number(session, id):
 
 
 def get_scheduled(session, id):
-    records = session.query(Requests).filter(Requests.id == id).all()
+    records = session.query(Requests).filter(Requests.sender_id == id).all()
     return records
 
 

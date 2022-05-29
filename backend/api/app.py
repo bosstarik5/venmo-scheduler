@@ -1,10 +1,6 @@
 from flask import Flask, render_template, make_response, request, jsonify
 from . import venmo_login
-<<<<<<< HEAD
-from backend.database import connect, insert_or_update_user, insert_request, get_access_token
-=======
-from backend.database import connect, insert_or_update_user, get_scheduled
->>>>>>> 1693f744df6b3fd6032b5f5a031bb6f282e67f9e
+from backend.database import *
 
 app = Flask(__name__)
 
@@ -30,7 +26,7 @@ def login():
         resp_code = 200
 
     # Return with make response
-    response = make_response(jsonify({"user_id": user_id}), resp_code,)
+    response = make_response(jsonify({"user_id": user_id}), resp_code)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
@@ -62,19 +58,15 @@ def schedule_request():
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
-
-
-
-
-# body = request.json()
-@app.route('/api/get_scheduled', methods=['GET'])
+@app.route('/api/get-scheduled', methods=['POST'])
 def get_scheduled_requests():
     resp_code = 400
     user_id = request.get_json()["user_id"]
     with connect() as session:
         scheduled_requests = get_scheduled(session, user_id)
+        print(scheduled_requests)
         resp_code = 200
-        response = make_response(jsonify({"requests" : scheduled_requests}), resp_code,)
+        response = make_response(jsonify({"requests" : [req.to_dict() for req in scheduled_requests]}), resp_code)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
