@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {
@@ -28,19 +32,11 @@
   color: #61dafb;
 }
 
-div.login {
+.name-amount {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-}
-
-/* CardContent > * {
-  margin: 10px !important;
-} */
-
-.login CardContent {
-  display: flex;
-  flex-direction: column;
 }
 
 @keyframes App-logo-spin {
