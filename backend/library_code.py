@@ -75,13 +75,14 @@ def insert_or_update_user(session, v_id, access, number):
         session.add(add_user)
         session.flush()
         session.refresh(add_user)
+        session.commit()
         return add_user.id
     else:
-        record = session.query(Users).filter(Users.venmo_id == v_id).\
+        session.query(Users).filter(Users.venmo_id == v_id).\
             update({'access_token': access})
+        session.commit()
+        record = session.query(Users).filter(Users.venmo_id == v_id).first()
         return record.id
-        
-    
 
 
 def insert_request(session, sender, rec, amt, note, frq, stdate, enddate):

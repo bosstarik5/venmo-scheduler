@@ -1,9 +1,9 @@
 # from venmo_api import Client
-from venmo_api_overrides import HTTPClient
+from backend.api.venmo_api_overrides import HTTPClient
 from venmo_api.models.exception import HttpCodeError
 
 
-def login(user, passw):
+def venmo_login(user, passw):
 
     auth_api = HTTPClient.get_auth_api()
     try:
