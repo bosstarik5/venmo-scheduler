@@ -16,7 +16,7 @@ def send_success_message(client, request_sender_num, request_reciever_user, venm
     message = client.messages.create(
         to=f"+{request_sender_num}",
         from_="+18483052722",
-        body=f"A Venmo request for the amount {amount} to {request_sender_num} for {venmo_note} has been sent!")
+        body=f"A Venmo request for the amount {amount} to {req} for {venmo_note} has been sent!")
 
 
 def send_failure_message(client, request_sender_num, request_reciever_user, venmo_note, amount):
@@ -27,3 +27,4 @@ def send_failure_message(client, request_sender_num, request_reciever_user, venm
         to=f"+{request_sender_num}",
         from_="+18483052722",
         body=f"Your Venmo request for the amount {amount} to {request_sender_num} for {venmo_note} failed to be sent")
+
