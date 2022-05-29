@@ -64,7 +64,7 @@ def get_friends():
     session = connect()
     acc_token = get_access_token(session, body["user_id"])
     friend_list = get_friend_from_user(acc_token)
-    response = make_response(friend_list, 200,)
+    response = make_response({ "friends": [f["_json"] for f in friend_list] }, 200)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
