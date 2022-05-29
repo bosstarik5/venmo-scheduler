@@ -6,9 +6,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def welcome():
     return 'Welcome to flask_apscheduler demo', 200
+
 
 def execute_scheduled_payments():
     # more code will go here
@@ -21,11 +23,13 @@ def execute_scheduled_payments():
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
     print("penis")
 
+
 @app.before_first_request
 def init_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=execute_scheduled_payments(), trigger="interval", seconds=3)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown(wait=False))
+
 
 app.run(host='0.0.0.0', port=12345, use_reloader=False)
