@@ -25,6 +25,7 @@ def execute_scheduled_payments():
     twilio_client = make_twilio_client()
     for req in requests_to_handle:
         access_token_venmo = get_access_token(session, req.sender_id)
+        print(access_token_venmo)
         try:
             sender_num = get_phone_number(session, req.sender_id)
             request_payment(access_token_venmo, req.amount, req.note, req.rec_id)
@@ -38,7 +39,7 @@ def execute_scheduled_payments():
 @app.before_first_request
 def init_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=3)
+    scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=30)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown(wait=False))
     return

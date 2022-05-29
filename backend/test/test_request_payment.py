@@ -21,7 +21,7 @@ def request_payment_test():
 
     request_payment(access_token, amnt, note, request_id)
 
-    HTTPClient.log_out(access_token)
+    # HTTPClient.log_out(access_token)
 
 
 if __name__ == "__main__":

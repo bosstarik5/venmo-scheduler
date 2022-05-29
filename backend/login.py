@@ -16,7 +16,6 @@ def venmo_login(user, passw):
         phone = str(client.user.get_my_profile().phone)
         venmo_id = str(client.user.get_my_profile().id)
 
-        HTTPClient.log_out(access_token)
         return access_token, venmo_id, phone
     except HttpCodeError:
         return None, None, None

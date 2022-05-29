@@ -160,3 +160,6 @@ def get_phone_number(session, id):
 
 # destroy_universe("postgres", "jainaryan7", "venmo_scheduler_test")
 # connect()
+
+# session = connect()
+# insert_request(session, 5, "2589517210976256921", 0.01, "peepeepoopoo", "60", "5","100000")
