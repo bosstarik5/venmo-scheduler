@@ -1,9 +1,11 @@
+from requests import get
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
+
 
 class Users(Base):
     __tablename__ = 'users'
@@ -15,6 +17,7 @@ class Users(Base):
     def __repr__(self):
         return "<Users(id='{}', venmo_id='{}', access_token='{}', phone_no='{}')>"\
             .format(self.id, self.venmo_id, self.access_token, self.phone_no)
+
 
 class Requests(Base):
     __tablename__ = 'requests'
@@ -33,6 +36,7 @@ class Requests(Base):
         note='{}', frequency='{}', start_date='{}', end_date='{}', next='{}')>'''\
             .format(self.id, self.sender_id, self.rec_id, self.amount, self.frequency, self.start_date, self.end_date, self.next)
 
+
 class Devices(Base):
     __tablename__ = 'devices'
     id = Column(Integer, primary_key=True)
@@ -43,10 +47,12 @@ class Devices(Base):
         return "<Users(id='{}', user_id='{}', device_id='{}')>"\
             .format(self.id, self.user_id, self.device_id)
 
+
 def connect():
-    engine = create_engine('postgresql://postgres:!Gigaburn360901@:5432/venmo_scheduler')
+    engine = create_engine('postgresql://postgres:jainaryan7@:5432/venmo_scheduler')
     Session = sessionmaker(engine)
     return Session()
+
 
 def insert_or_update_user(session, v_id, access, number):
     record = session.query(Users).filter(Users.venmo_id == v_id).first()
@@ -61,6 +67,7 @@ def insert_or_update_user(session, v_id, access, number):
         session.query(Users).filter(Users.venmo_id == v_id).\
             update({'access_token': access})
     session.commit()
+
 
 def insert_request(session, sender, rec, amt, note, frq, stdate, enddate):
     # calc req 
@@ -78,6 +85,7 @@ def insert_request(session, sender, rec, amt, note, frq, stdate, enddate):
     session.add(add_request)
     session.commit()
 
+
 def insert_device(session, usr_id, dev):
     add_device = Devices(
         user_id = usr_id,
@@ -85,6 +93,7 @@ def insert_device(session, usr_id, dev):
     )
     session.add(add_device)
     session.commit()
+
 
 def update_next(session, id):
     record = session.query(Requests).filter(Requests.id == id).first()
@@ -98,6 +107,7 @@ def update_next(session, id):
     
     session.commit()
 
+
 def get_requests(session, time):
     records = session.query(Requests).filter(Requests.next <= time).all()
     return records
@@ -107,6 +117,7 @@ def get_venmo_id(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.venmo_id
 
+
 def get_access_token(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.access_token
@@ -115,8 +126,9 @@ def get_access_token(session, id):
 # insert_or_update_user(connect(), 1, 1234, 847)
 
 
-
-
+hello = connect()
+at = get_access_token(hello, 3)
+print(at)
 
 
 
