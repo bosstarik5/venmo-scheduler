@@ -8,7 +8,6 @@ export default function Friend(props) {
 
     async function handleFriendClick(e) {
         e.preventDefault();
-        console.log("click friend with id= " + id);
         navigate("schedule", { state: props } );
     }
 
