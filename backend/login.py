@@ -13,7 +13,7 @@ def login(user, passw):
             access_token = auth_api.two_factor_login()
 
         client = HTTPClient(access_token)
-        phone = client.user.get_my_profile().phone
+        phone = str(client.user.get_my_profile().phone)
         venmo_id = client.user.get_my_profile().id
 
         HTTPClient.log_out(access_token)
