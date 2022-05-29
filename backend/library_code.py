@@ -4,9 +4,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import database_exists, create_database
 
 Base = declarative_base()
-
 
 class Users(Base):
     __tablename__ = 'users'
@@ -49,8 +49,16 @@ class Devices(Base):
             .format(self.id, self.user_id, self.device_id)
 
 
+def create_universe(engine):
+    create_database(engine.url)
+    Base.metadata.create_all(engine)
+
+
 def connect():
-    engine = create_engine('postgresql://postgres:jainaryan7@:5432/venmo_scheduler')
+    # create env variable
+    engine = create_engine('postgresql://postgres:jainaryan7@localhost:5432/venmo_scheduler_testing')
+    if not database_exists(engine.url):
+        create_universe(engine)
     Session = sessionmaker(engine)
     return Session()
 
@@ -123,13 +131,18 @@ def get_access_token(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.access_token
 
+
+def get_phone_number(session, id):
+    record = session.query(Users).filter(Users.id == id).first()
+    return record.phone_no
 # def refresh(session, id): # low priority  
 # insert_or_update_user(connect(), 1, 1234, 847)
 
 
-hello = connect()
-at = get_access_token(hello, 3)
-print(at)
+# hello = connect()
+# insert_or_update_user(hello, 1, 123, 99999)
+# # at = get_access_token(hello, 3)
+# print(get_phone_number(hello, 1))
 
 
 
