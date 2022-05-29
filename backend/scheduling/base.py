@@ -2,10 +2,10 @@ from flask import Flask
 import atexit
 import time
 import datetime
-from sms_functions import make_twilio_client, send_success_message, send_failure_message
+from sms_functions import make_twilio_client, send_text_message
 from venmo_api import GeneralPaymentError, NotEnoughBalanceError
 from apscheduler.schedulers.background import BackgroundScheduler
-from backend import request_payment, get_requests, update_next, Users, Requests, connect, get_access_token, get_phone_number
+from backend.database import request_payment, get_requests, update_next, Users, Requests, connect, get_access_token, get_phone_number
 app = Flask(__name__)
 
 @app.route('/')
@@ -25,21 +25,21 @@ def execute_scheduled_payments():
     twilio_client = make_twilio_client()
     for req in requests_to_handle:
         access_token_venmo = get_access_token(session, req.sender_id)
-        sender_num = get_phone_number(session, req.sender_id)
+        print(access_token_venmo)
         try:
+            sender_num = get_phone_number(session, req.sender_id)
             request_payment(access_token_venmo, req.amount, req.note, req.rec_id)
-            send_success_message(twilio_client, sender_num, req.rec_id, req.note, req.amount)
+            send_text_message(twilio_client, sender_num, req.rec_id, req.note, req.amount)
             update_next(session, req.id)
             print(f"payment for {req.id} successful!!!")
         except GeneralPaymentError:
-            send_failure_message(twilio_client, sender_num, req.rec_id, req.note, req.amount)
             pass
     return 
 
 @app.before_first_request
 def init_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=3)
+    scheduler.add_job(func=execute_scheduled_payments, trigger="interval", seconds=30)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown(wait=False))
     return

@@ -1,5 +1,5 @@
-from request_payments import request_payment
-from venmo_api_overrides import HTTPClient
+from backend.api import request_payment
+from backend.api.venmo_api_overrides import HTTPClient
 
 
 def request_payment_test():
@@ -21,7 +21,7 @@ def request_payment_test():
 
     request_payment(access_token, amnt, note, request_id)
 
-    HTTPClient.log_out(access_token)
+    # HTTPClient.log_out(access_token)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
-from library_code import connect, insert_or_update_user, get_phone_number
-from venmo_api_overrides import HTTPClient
+from backend.database import connect, insert_or_update_user, get_phone_number
+from backend.api.venmo_api_overrides import HTTPClient
 
 
 def connect_test():

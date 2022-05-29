@@ -1,14 +1,14 @@
-
-from requests import get
+from dotenv import load_dotenv
+load_dotenv()
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-import psycopg2
+import os
 
 Base = declarative_base()
+
 
 class Users(Base):
     __tablename__ = 'users'
@@ -55,9 +55,11 @@ def create_universe(engine):
     create_database(engine.url)
     Base.metadata.create_all(engine)
 
+
 def connect():
     # create env variable
-    engine = create_engine('postgresql://postgres:!Gigaburn360901@localhost:5432/venmo_scheduler_testing')
+    print(os.environ.get('DB_URL'))
+    engine = create_engine(os.environ.get('DB_URL'))
     if not database_exists(engine.url):
         create_universe(engine)
     Session = sessionmaker(engine)
@@ -75,13 +77,14 @@ def insert_or_update_user(session, v_id, access, number):
         session.add(add_user)
         session.flush()
         session.refresh(add_user)
+        session.commit()
         return add_user.id
     else:
-        record = session.query(Users).filter(Users.venmo_id == v_id).\
+        session.query(Users).filter(Users.venmo_id == v_id).\
             update({'access_token': access})
+        session.commit()
+        record = session.query(Users).filter(Users.venmo_id == v_id).first()
         return record.id
-        
-    
 
 
 def insert_request(session, sender, rec, amt, note, frq, stdate, enddate):
@@ -140,6 +143,14 @@ def get_access_token(session, id):
 def get_phone_number(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.phone_no
+
+
+def get_scheduled(session, id):
+    records = session.query(Requests).filter(Requests.id == id).all()
+    return records
+
+
+
 # def refresh(session, id): # low priority  
 # insert_or_update_user(connect(), 1, 1234, 847)
 
@@ -159,3 +170,6 @@ def get_phone_number(session, id):
 
 # destroy_universe("postgres", "jainaryan7", "venmo_scheduler_test")
 # connect()
+
+# session = connect()
+# insert_request(session, 5, "2589517210976256921", 0.01, "peepeepoopoo", "60", "5","100000")

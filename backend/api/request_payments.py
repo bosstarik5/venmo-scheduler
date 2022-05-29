@@ -1,4 +1,4 @@
-from venmo_api_overrides import HTTPClient
+from backend.api.venmo_api_overrides import HTTPClient
 from venmo_api import GeneralPaymentError, NotEnoughBalanceError
 
 
