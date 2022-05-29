@@ -1,5 +1,5 @@
 from flask import Flask, render_template, make_response, request, jsonify
-from . import venmo_login
+from . import venmo_login, get_friend_from_user
 from backend.database import *
 
 app = Flask(__name__)
@@ -55,6 +55,16 @@ def schedule_request():
         body["text"], freq, body["start_date"], body["end_date"])
 
     response = make_response(jsonify({ "message": "success"}), 200)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    return response
+
+@app.route('/api/friends', methods=['POST'])
+def get_friends():
+    body = request.get_json()
+    session = connect()
+    acc_token = get_access_token(session, body["user_id"])
+    friend_list = get_friend_from_user(acc_token)
+    response = make_response(friend_list, 200,)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
