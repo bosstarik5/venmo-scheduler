@@ -1,6 +1,6 @@
 from flask import Flask, render_template, make_response, request, jsonify
-from . import venmo_login
-from backend.database import connect, insert_or_update_user, get_scheduled
+from . import venmo_login, get_friend_from_user
+from backend.database import connect, insert_or_update_user, get_access_token, get_scheduled
 
 app = Flask(__name__)
 
@@ -28,6 +28,17 @@ def login():
 
     # Return with make response
     response = make_response(jsonify({"userid": userid}), resp_code,)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    return response
+
+
+@app.route('/api/friends', methods=['POST'])
+def get_friends():
+    body = request.get_json()
+    session = connect()
+    acc_token = get_access_token(session, body["user_id"])
+    friend_list = get_friend_from_user(acc_token)
+    response = make_response(friend_list, 200,)
     response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
