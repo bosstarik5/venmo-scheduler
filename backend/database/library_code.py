@@ -142,6 +142,12 @@ def get_access_token(session, id):
 def get_phone_number(session, id):
     record = session.query(Users).filter(Users.id == id).first()
     return record.phone_no
+
+def get_scheduled(session, id):
+    records = session.query(Requests).filter(Requests.id == id).all()
+    return records
+
+
 # def refresh(session, id): # low priority  
 # insert_or_update_user(connect(), 1, 1234, 847)
 
