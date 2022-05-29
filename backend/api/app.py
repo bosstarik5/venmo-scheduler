@@ -20,10 +20,10 @@ def login():
 
     # Get access token from venmo
     acc_token, venmo_id, phone = login(body["username"], body["password"])
-    user_exist = False
     if acc_token:
-        # session = connect()
-        # userid = update_user(session, venmo_id, acc_token, phone)
+        session = connect()
+        # userid = insert_or_update_user(session, venmo_id, acc_token, phone)
+        insert_or_update_user(session, 33, 555, 666)
         userid = body["username"]
 
         resp_code = 200

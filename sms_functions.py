@@ -10,6 +10,9 @@ def make_twilio_client():
     return client
 
 def send_text_message(client, request_sender_num, request_reciever_user, venmo_note, amount):
+    if len(request_sender_num) == 10:
+        request_sender_num = '1' + request_sender_num
+
     message = client.messages.create(
         to=f"+{request_sender_num}",
         from_="+18483052722",
