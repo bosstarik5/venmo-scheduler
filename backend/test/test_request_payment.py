@@ -1,5 +1,5 @@
-from request_payments import request_payment
-from venmo_api_overrides import HTTPClient
+from backend.api import request_payment
+from backend.api.venmo_api_overrides import HTTPClient
 
 
 def request_payment_test():

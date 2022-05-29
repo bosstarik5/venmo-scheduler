@@ -5,7 +5,7 @@ import datetime
 from sms_functions import make_twilio_client, send_text_message
 from venmo_api import GeneralPaymentError, NotEnoughBalanceError
 from apscheduler.schedulers.background import BackgroundScheduler
-from backend import request_payment, get_requests, update_next, Users, Requests, connect, get_access_token, get_phone_number
+from backend.database import request_payment, get_requests, update_next, Users, Requests, connect, get_access_token, get_phone_number
 app = Flask(__name__)
 
 @app.route('/')

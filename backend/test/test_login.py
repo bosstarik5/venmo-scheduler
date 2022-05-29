@@ -1,5 +1,5 @@
-from login import login
-from venmo_api_overrides import HTTPClient
+from backend.api import login
+from backend.api.venmo_api_overrides import HTTPClient
 
 
 def login_test():

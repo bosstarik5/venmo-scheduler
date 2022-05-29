@@ -1,11 +1,12 @@
 from flask import Flask, render_template, make_response, request, jsonify
-from backend import venmo_login
-from backend import connect, insert_or_update_user
+from . import venmo_login
+from backend.database import connect, insert_or_update_user
 
 app = Flask(__name__)
 
 
 @app.route('/api/')
+@app.route('/api')
 def welcome():
     return 'Welcome to flask_apscheduler demo', 200
 
@@ -27,6 +28,7 @@ def login():
 
     # Return with make response
     response = make_response(jsonify({"userid": userid}), resp_code,)
+    response.headers['Access-Control-Allow-Origin'] = "*"
     return response
 
 

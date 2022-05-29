@@ -1,14 +1,14 @@
-
-from requests import get
+from dotenv import load_dotenv
+load_dotenv()
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-import psycopg2
+import os
 
 Base = declarative_base()
+
 
 class Users(Base):
     __tablename__ = 'users'
@@ -57,7 +57,8 @@ def create_universe(engine):
 
 def connect():
     # create env variable
-    engine = create_engine('postgresql://postgres:!Gigaburn360901@localhost:5432/venmo_scheduler_testing')
+    print(os.environ.get('DB_URL'))
+    engine = create_engine(os.environ.get('DB_URL'))
     if not database_exists(engine.url):
         create_universe(engine)
     Session = sessionmaker(engine)
