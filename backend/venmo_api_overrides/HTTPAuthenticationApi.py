@@ -20,7 +20,7 @@ class HTTPAuthenticationApi(AuthenticationApi):
 
         # Give warnings to the user about device-id and token expiration
         # warn("IMPORTANT: Take a note of your device-id to avoid 2-factor-authentication for your next login.")
-        print(f"device-id: {self.__device_id}")
+        # print(f"device-id: {self.__device_id}")
         # warn("IMPORTANT: Your Access Token will NEVER expire, unless you logout manually (client.log_out(token)).\n"
         #     "Take a note of your token, so you don't have to login every time.\n")
 
