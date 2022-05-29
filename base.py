@@ -26,7 +26,7 @@ def execute_scheduled_payments():
     for req in requests_to_handle:
         access_token_venmo = get_access_token(session, req.sender_id)
         try:
-            sender_num = None
+            sender_num = None # replace with function for getting phone numbers from db
             request_payment(access_token_venmo, req.amount, req.note, req.rec_id)
             send_text_message(twilio_client, sender_num, req.rec_id, req.note, req.amount)
             update_next(session, req.id)
