@@ -1,5 +1,6 @@
 from flask import Flask, render_template, make_response, request, jsonify
 from backend import login
+from backend import connect, insert_or_update_user
 
 app = Flask(__name__)
 

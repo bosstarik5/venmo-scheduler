@@ -44,7 +44,7 @@ class Devices(Base):
             .format(self.id, self.user_id, self.device_id)
 
 def connect():
-    engine = create_engine('postgresql://postgres:jainaryan7@localhost:5432/venmo_scheduler')
+    engine = create_engine('postgresql://postgres:!Gigaburn360901@:5432/venmo_scheduler')
     Session = sessionmaker(engine)
     return Session()
 
