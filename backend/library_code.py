@@ -56,7 +56,7 @@ def create_universe(engine):
 
 def connect():
     # create env variable
-    engine = create_engine('postgresql://postgres:jainaryan7@localhost:5432/venmo_scheduler_testing')
+    engine = create_engine('postgresql://postgres:!Gigaburn360901@localhost:5432/venmo_scheduler_testing')
     if not database_exists(engine.url):
         create_universe(engine)
     Session = sessionmaker(engine)
